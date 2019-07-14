@@ -6,7 +6,7 @@ import (
 	"testing"
 )
 
-func TestValueElseUnwrap(t *testing.T) {
+func TestStringElseUnwrap(t *testing.T) {
 
 	tests := []struct{
 		Value    mdl.String

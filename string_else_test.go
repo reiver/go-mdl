@@ -6,7 +6,7 @@ import (
 	"testing"
 )
 
-func TestValueElse(t *testing.T) {
+func TestStringElse(t *testing.T) {
 
 	tests := []struct{
 		Value    mdl.String
