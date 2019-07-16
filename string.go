@@ -41,7 +41,7 @@ type String struct {
 //	
 //	// ...
 //	
-//	if mdl.NoString == datum {
+//	if mdl.NoString() == datum {
 //		//@TODO
 //	}
 //
