@@ -6,7 +6,7 @@ import (
 	"testing"
 )
 
-func TestEncodeToken(t *testing.T) {
+func TestKeyTokenEncode(t *testing.T) {
 
 	tests := []struct{
 		Token    string
@@ -81,7 +81,7 @@ func TestEncodeToken(t *testing.T) {
 		var builder strings.Builder
 
 
-		if err := encodeToken(&builder, test.Token); nil != err {
+		if err := keyTokenEncode(&builder, test.Token); nil != err {
 			t.Errorf("For test #%d, did not expect an error, but actually got one: (%T) %q", testNumber, err, err)
 			t.Logf("\tTOKEN: %q", test.Token)
 			continue

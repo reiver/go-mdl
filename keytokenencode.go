@@ -7,7 +7,7 @@ import (
 	"unicode/utf8"
 )
 
-func encodeToken(writer io.Writer, part string) error {
+func keyTokenEncode(writer io.Writer, part string) error {
 	if nil == writer {
 		return errNilWriter
 	}
