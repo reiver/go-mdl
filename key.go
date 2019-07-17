@@ -28,3 +28,49 @@ package mdl
 type Key struct {
 	encoded String
 }
+
+// NoKey returns a ‘mdl.Key’ which has no value (i.e., ‘nothing’).
+//
+// Example
+//
+// Here is an example of ‘mdl.NoKey()’ being used in an assignment.
+//
+//	var key mdl.Key
+//	
+//	// ...
+//	
+//	key = mdl.NoKey()
+//
+// You can also use ‘mdl.NoKey()’ in comparisons in an if-statment, as in for example:
+//
+//	var key mdl.Key
+//	
+//	// ...
+//	
+//	if mdl.NoKey() == key {
+//		//@TODO
+//	}
+//
+// And you can use ‘mdl.NoKey()’ in comparisons in an switch-statment, as in for example:
+//
+//	var key mdl.Key
+//	
+//	// ...
+//	
+//	switch key {
+//	case mdl.NoKey():
+//		//@TODO
+//	
+//	case mdl.SomeKey("database", "username"):
+//		//@TODO
+//	case mdl.SomeKey("database", "password"):
+//		//@TODO
+//	case mdl.SomeKey("version"):
+//		//@TODO
+//	
+//	default:
+//		//@TODO
+//	}
+func NoKey() Key {
+	return Key{}
+}
