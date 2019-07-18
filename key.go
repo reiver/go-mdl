@@ -1,6 +1,7 @@
 package mdl
 
 import (
+	"database/sql/driver"
 	"fmt"
 	"strings"
 )
@@ -212,3 +213,11 @@ func (receiver Key) Then(fn func(...string)Key) Key {
 	return fn(receiver.ElseUnwrap()...)
 }
 
+// Value makes mdl.Key fit the database/sql/driver.Valuer interface.
+func (receiver Key) Value() (driver.Value, error) {
+	if NoKey() == receiver {
+		return nil, errNotLoaded
+	}
+
+	return receiver.encoded.datum, nil
+}
