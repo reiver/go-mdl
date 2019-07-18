@@ -102,3 +102,47 @@ func TestKeyElseUnwrap(t *testing.T) {
 		}
 	}
 }
+
+func TestKeyGoString(t *testing.T) {
+
+	tests := []struct{
+		Key      mdl.Key
+		Expected string
+	}{
+		{
+			Key:       mdl.NoKey(),
+			Expected: "mdl.NoKey()",
+		},
+		{
+			Key:       mdl.SomeKey(),
+			Expected: "mdl.NoKey()",
+		},
+
+
+
+		{
+			Key:       mdl.SomeKey("apple"),
+			Expected: `mdl.SomeKey("apple")`,
+		},
+		{
+			Key:       mdl.SomeKey("apple", "banana"),
+			Expected: `mdl.SomeKey("apple", "banana")`,
+		},
+		{
+			Key:       mdl.SomeKey("apple", "banana", "cherry"),
+			Expected: `mdl.SomeKey("apple", "banana", "cherry")`,
+		},
+	}
+
+	for testNumber, test := range tests {
+
+		actual := test.Key.GoString()
+
+		if expected := test.Expected; expected != actual {
+			t.Errorf("For test #%d, what was expected from .GoString() is not what was actually received.", testNumber)
+			t.Logf("EXPECTED: «%s»", expected)
+			t.Logf("ACTUAL:   «%s»", actual)
+			continue
+		}
+	}
+}

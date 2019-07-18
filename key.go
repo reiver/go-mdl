@@ -1,5 +1,10 @@
 package mdl
 
+import (
+	"fmt"
+	"strings"
+)
+
 // Key represents the ‘key’ in the key-value pairs.
 //
 // Because the ‘key’ isn't just a ‘string’, and is instead (conceptually) a ‘[]string’,
@@ -145,4 +150,42 @@ func (receiver Key) ElseUnwrap(key ...string) []string {
 	a, _ := KeyDeserialize(receiver.encoded.datum)
 
 	return a
+}
+
+// GoString makes ‘mdl.Key’ fit the fmt.GoStringer interface.
+//
+// It gets used with the %#v verb with the printing family of functions
+// in the Go built-in "fmt" package.
+//
+// I.e., it gets used with: fmt.Fprint(), fmt.Fprintf(), fmt.Fprintln(),
+// fmt.Print(), fmt.Printf(), fmt.Println(), fmt.Sprint(), fmt.Sprintf(),
+// fmt.Sprintln().
+//
+// Example
+//
+// Here is an example where .GoString() is being implicitly used.
+// This implicit usage is the way most people are likely to use it.
+//
+//	var datum mdl.Key
+//	
+//	// ...
+//	
+//	fmt.Printf("datum = %#v\n", s) // <---- datum.GoString() is called by fmt.Printf()
+func (receiver Key) GoString() string {
+	if NoKey() == receiver {
+		return "mdl.NoKey()"
+	}
+
+	var builder strings.Builder
+
+	builder.WriteString("mdl.SomeKey(")
+	for i, token := range receiver.ElseUnwrap() {
+		if 0 != i {
+			builder.WriteString(", ")
+		}
+		fmt.Fprintf(&builder, "%q", token)
+	}
+	builder.WriteRune(')')
+
+	return builder.String()
 }
