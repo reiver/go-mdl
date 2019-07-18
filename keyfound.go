@@ -13,7 +13,7 @@ import (
 //	
 //	// ...
 //	
-//	err := keyvalues.Store(value, key...)
+//	err := keyvalues.Store(key, value)
 //	
 //	if nil != err {
 //		switch err.(type) {
@@ -28,7 +28,7 @@ type KeyFound interface {
 	KeyFound()
 
 	// Key returns the key.
-	Key() []string
+	Key() Key
 
 	// Value returns the value that was trying to be stored at the key, when the error occurred.
 	Value() string
@@ -38,16 +38,16 @@ type KeyFound interface {
 }
 
 type internalKeyFound struct {
-	key []string
+	key Key
 	value string
 	foundValue string
 }
 
 func (receiver internalKeyFound) Error() string {
-	return fmt.Sprintf("mdl: key %q found with value %q, cannot store value %q", receiver.key, receiver.foundValue, receiver.value)
+	return fmt.Sprintf("mdl: key %#v found with value %q, cannot store value %q", receiver.key, receiver.foundValue, receiver.value)
 }
 
-func (receiver internalKeyFound) Key() []string {
+func (receiver internalKeyFound) Key() Key {
 	return receiver.key
 }
 
