@@ -37,3 +37,34 @@ func TestSomeKeyNoKey(t *testing.T) {
 	}
 }
 
+func TestKeyElse(t *testing.T) {
+
+	tests := []struct{
+		Key     mdl.Key
+		Else  []string
+		Expected mdl.Key
+	}{
+		{
+			Key: mdl.NoKey(),
+			Else: []string{"apple", "banana", "cherry"},
+			Expected: mdl.SomeKey("apple", "banana", "cherry"),
+		},
+		{
+			Key: mdl.SomeKey("one", "two"),
+			Else: []string{"apple", "banana", "cherry"},
+			Expected: mdl.SomeKey("one", "two"),
+		},
+	}
+
+	for testNumber, test := range tests {
+
+		actual := test.Key.Else(test.Else...)
+
+		if expected := test.Expected; expected != actual {
+			t.Errorf("For test #%d, the key which was actually gotten from .Else(), was not what was expected.", testNumber)
+			t.Logf("EXPECTED: %#v", expected)
+			t.Logf("ACTUAL:   %#v", actual)
+			continue
+		}
+	}
+}

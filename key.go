@@ -129,3 +129,10 @@ func SomeKey(key ...string) Key {
 	}
 }
 
+func (receiver Key) Else(key ...string) Key {
+	if NoKey() != receiver {
+		return receiver
+	}
+
+	return SomeKey(key...)
+}
