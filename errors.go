@@ -5,5 +5,6 @@ import (
 )
 
 var (
-	errRuneError      = errors.New("mdl: Rune Error")
+	errEmptyKey       error = internalEmptyKey{}
+	errRuneError      error = errors.New("mdl: Rune Error")
 )
