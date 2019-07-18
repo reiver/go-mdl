@@ -210,3 +210,115 @@ func TestKeyMap(t *testing.T) {
 		}
 	}
 }
+
+func TestKeyThen(t *testing.T) {
+
+	tests := []struct{
+		FN func(...string)mdl.Key
+		Key mdl.Key
+		Expected mdl.Key
+	}{
+		{
+			FN: func(...string)mdl.Key {
+				return mdl.NoKey()
+			},
+			Key:           mdl.NoKey(),
+			Expected:      mdl.NoKey(),
+		},
+		{
+			FN: func(...string)mdl.Key {
+				return mdl.NoKey()
+			},
+			Key:           mdl.SomeKey(),
+			Expected:      mdl.NoKey(),
+		},
+		{
+			FN: func(...string)mdl.Key {
+				return mdl.NoKey()
+			},
+			Key:           mdl.SomeKey("apple", "banana", "cherry"),
+			Expected:      mdl.NoKey(),
+		},
+
+
+
+		{
+			FN: func(...string)mdl.Key {
+				return mdl.SomeKey("one", "two")
+			},
+			Key:           mdl.NoKey(),
+			Expected:      mdl.NoKey(),
+		},
+		{
+			FN: func(...string)mdl.Key {
+				return mdl.SomeKey("one", "two")
+			},
+			Key:           mdl.SomeKey(),
+			Expected:      mdl.NoKey(),
+		},
+		{
+			FN: func(...string)mdl.Key {
+				return mdl.SomeKey("one", "two")
+			},
+			Key:           mdl.SomeKey("apple", "banana", "cherry"),
+			Expected:      mdl.SomeKey("one", "two"),
+		},
+
+
+
+		{
+			FN: func(a ...string)mdl.Key {
+				var b []string
+
+				for _, aa := range a {
+					bb := strings.ToUpper(aa)
+					b = append(b, bb)
+				}
+
+				return mdl.SomeKey(b...)
+			},
+			Key:           mdl.NoKey(),
+			Expected:      mdl.NoKey(),
+		},
+		{
+			FN: func(a ...string)mdl.Key {
+				var b []string
+
+				for _, aa := range a {
+					bb := strings.ToUpper(aa)
+					b = append(b, bb)
+				}
+
+				return mdl.SomeKey(b...)
+			},
+			Key:           mdl.SomeKey(),
+			Expected:      mdl.NoKey(),
+		},
+		{
+			FN: func(a ...string)mdl.Key {
+				var b []string
+
+				for _, aa := range a {
+					bb := strings.ToUpper(aa)
+					b = append(b, bb)
+				}
+
+				return mdl.SomeKey(b...)
+			},
+			Key:           mdl.SomeKey("apple", "banana", "cherry"),
+			Expected:      mdl.SomeKey("APPLE", "BANANA", "CHERRY"),
+		},
+	}
+
+	for testNumber, test := range tests {
+
+		actual := test.Key.Then(test.FN)
+
+		if expected := test.Expected; expected != actual {
+			t.Errorf("For test #%d, what was expected from .Then() is not what was actually received.", testNumber)
+			t.Logf("EXPECTED: %#v", expected)
+			t.Logf("ACTUAL:   %#v", actual)
+			continue
+		}
+	}
+}

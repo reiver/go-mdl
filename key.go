@@ -203,3 +203,12 @@ func (receiver Key) Map(fn func(...string)[]string) Key {
 	return SomeKey(fn(receiver.ElseUnwrap()...)...)
 }
 
+
+func (receiver Key) Then(fn func(...string)Key) Key {
+	if NoKey() == receiver {
+		return receiver
+	}
+
+	return fn(receiver.ElseUnwrap()...)
+}
+
