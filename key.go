@@ -74,3 +74,53 @@ type Key struct {
 func NoKey() Key {
 	return Key{}
 }
+
+// SomeKey returns a ‘mdl.Key’ which has some value (i.e., ‘something’).
+//
+// Example
+//
+// Here is an example of ‘mdl.SomeKey()’ being used in an assignment.
+//
+//	var key mdl.Key
+//	
+//	// ...
+//	
+//	key = mdl.SomeKey("database", "password")
+//
+// You can also use ‘mdl.SomeKey()’ in comparisons in an if-statment, as in for example:
+//
+//	var key mdl.Key
+//	
+//	// ...
+//	
+//	if mdl.SomeKey("database", "password") == key {
+//		//@TODO
+//	}
+//
+// And you can use ‘mdl.SomeKey()’ in comparisons in an switch-statment, as in for example:
+//
+//	var key mdl.Key
+//	
+//	// ...
+//	
+//	switch key {
+//	case mdl.NoKey():
+//		//@TODO
+//	
+//	case mdl.SomeKey("database", "username"):
+//		//@TODO
+//	case mdl.SomeKey("database", "password"):
+//		//@TODO
+//	case mdl.SomeKey("version"):
+//		//@TODO
+//	
+//	default:
+//		//@TODO
+//	}
+func SomeKey(key ...string) Key {
+	encoded := KeySerialize(key...)
+
+	return Key{
+		encoded: SomeString(encoded),
+	}
+}

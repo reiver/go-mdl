@@ -15,3 +15,14 @@ func TestNoKey(t *testing.T) {
 		return
 	}
 }
+
+func TestSomeKey(t *testing.T) {
+
+	var this mdl.Key = mdl.SomeKey("apple", "banana", "cherry")
+	var that mdl.Key = mdl.SomeKey("apple", "banana", "cherry")
+
+	if this != that {
+		t.Errorf("Expected two mdl.Key assigned the same value with mdl.SomeKey() to be equal, but actually aren't.")
+		return
+	}
+}
