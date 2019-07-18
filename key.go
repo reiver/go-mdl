@@ -204,6 +204,9 @@ func (receiver Key) Map(fn func(...string)[]string) Key {
 	return SomeKey(fn(receiver.ElseUnwrap()...)...)
 }
 
+func (receiver Key) String() (string, error) {
+	return receiver.encoded.String()
+}
 
 func (receiver Key) Then(fn func(...string)Key) Key {
 	if NoKey() == receiver {

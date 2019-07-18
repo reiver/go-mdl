@@ -211,6 +211,70 @@ func TestKeyMap(t *testing.T) {
 	}
 }
 
+func TestKeyString(t *testing.T) {
+
+	tests := []struct{
+		Key mdl.Key
+		Expected string
+		ExpectedErr string
+	}{
+		{
+			Key: mdl.NoKey(),
+			Expected: "",
+			ExpectedErr: "mdl: Not Loaded",
+		},
+		{
+			Key: mdl.SomeKey(),
+			Expected: "",
+			ExpectedErr: "mdl: Not Loaded",
+		},
+
+
+
+		{
+			Key: mdl.SomeKey("apple", "banana", "cherry"),
+			Expected: "apple/banana/cherry",
+			ExpectedErr: "",
+		},
+
+
+
+		{
+			Key: mdl.SomeKey("ONE", "Two", "three"),
+			Expected: "ONE/Two/three",
+			ExpectedErr: "",
+		},
+	}
+
+	for testNumber, test := range tests {
+
+		actual, actualErr := test.Key.String()
+
+		switch actualErr {
+		case nil:
+			if expected := test.ExpectedErr; "" != expected {
+				t.Errorf("For test #%d, expected an error, but did not actually get one.", testNumber)
+				t.Logf("EXPECTED error message: %q", expected)
+				t.Logf("ACTUAL   error:         %#v", actualErr)
+				continue
+			}
+		default:
+			if expected, actual := test.ExpectedErr, actualErr.Error(); expected != actual {
+				t.Errorf("For test #%d, expected an error, but did not actually get one.", testNumber)
+				t.Logf("EXPECTED error message: %q", expected)
+				t.Logf("ACTUAL   error message: %q", actual)
+			}
+		}
+
+		if expected := test.Expected; expected != actual {
+			t.Errorf("For test #%d, what was expected from .String() is not what was actually received.", testNumber)
+			t.Logf("EXPECTED: %q", expected)
+			t.Logf("ACTUAL:   %q", actual)
+			continue
+		}
+	}
+}
+
 func TestKeyThen(t *testing.T) {
 
 	tests := []struct{
