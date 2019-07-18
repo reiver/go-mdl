@@ -26,3 +26,14 @@ func TestSomeKey(t *testing.T) {
 		return
 	}
 }
+
+func TestSomeKeyNoKey(t *testing.T) {
+
+	var key mdl.Key = mdl.SomeKey()
+
+	if expected, actual := mdl.NoKey(), key; expected != actual {
+		t.Errorf("Expected mdl.SomeKey() to equal mdl.NoKey(), but actually wasn't.")
+		return
+	}
+}
+

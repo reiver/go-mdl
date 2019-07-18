@@ -118,9 +118,14 @@ func NoKey() Key {
 //		//@TODO
 //	}
 func SomeKey(key ...string) Key {
+	if 0 == len(key) {
+		return NoKey()
+	}
+
 	encoded := KeySerialize(key...)
 
 	return Key{
 		encoded: SomeString(encoded),
 	}
 }
+
