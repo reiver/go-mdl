@@ -1,10 +1,12 @@
-package mdl
+package mdl_test
 
 import (
+	"github.com/reiver/go-mdl"
+
 	"testing"
 )
 
-func TestKeyencode(t *testing.T) {
+func TestKeySerialize(t *testing.T) {
 
 	tests := []struct{
 		Key    []string
@@ -65,7 +67,7 @@ func TestKeyencode(t *testing.T) {
 	}
 
 	for testNumber, test := range tests {
-		actual := keyencode(test.Key...)
+		actual := mdl.KeySerialize(test.Key...)
 
 		if expected := test.Expected; expected != actual {
 			t.Errorf("For test #%d, the actual encoded key, is not what was expected.", testNumber)
