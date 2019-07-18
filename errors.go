@@ -5,6 +5,5 @@ import (
 )
 
 var (
-	errNilReceiver = errors.New("mdl: Nil Receiver")
-	errNotLoaded   = errors.New("mdl: Not Loaded")
+	errRuneError      = errors.New("mdl: Rune Error")
 )
