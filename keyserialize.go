@@ -12,7 +12,7 @@ import (
 //
 // Example
 //
-// Here is an example of using ‘mdl.Serialze()’.
+// Here is an example of using ‘mdl.KeySerialze()’.
 //
 //	serialized := mdl.KeySerialize("database", "password") // == "database/password"
 //
