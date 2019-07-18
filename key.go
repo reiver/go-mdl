@@ -189,3 +189,17 @@ func (receiver Key) GoString() string {
 
 	return builder.String()
 }
+
+func (receiver Key) Map(fn func(...string)[]string) Key {
+	if NoKey() == receiver {
+		return receiver
+	}
+
+//@TODO: Shouldn't this be an error?
+	if nil == fn {
+		return receiver
+	}
+
+	return SomeKey(fn(receiver.ElseUnwrap()...)...)
+}
+

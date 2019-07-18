@@ -4,6 +4,7 @@ import (
 	"github.com/reiver/go-mdl"
 
 	"reflect"
+	"strings"
 
 	"testing"
 )
@@ -142,6 +143,69 @@ func TestKeyGoString(t *testing.T) {
 			t.Errorf("For test #%d, what was expected from .GoString() is not what was actually received.", testNumber)
 			t.Logf("EXPECTED: «%s»", expected)
 			t.Logf("ACTUAL:   «%s»", actual)
+			continue
+		}
+	}
+}
+
+func TestKeyMap(t *testing.T) {
+
+	tests := []struct{
+		FN func(...string)[]string
+		Key mdl.Key
+		Expected mdl.Key
+	}{
+		{
+			FN: func(...string)[]string{
+				return []string{"apple","banana", "cherry"}
+			},
+			Key:      mdl.NoKey(),
+			Expected: mdl.NoKey(),
+		},
+		{
+			FN: func(...string)[]string{
+				return []string{"apple","banana", "cherry"}
+			},
+			Key:      mdl.SomeKey(),
+			Expected: mdl.NoKey(),
+		},
+
+
+
+		{
+			FN: func(...string)[]string{
+				return []string{"apple","banana", "cherry"}
+			},
+			Key:      mdl.SomeKey("one", "two"),
+			Expected: mdl.SomeKey("apple","banana", "cherry"),
+		},
+
+
+
+		{
+			FN: func(a ...string)[]string{
+				var b []string
+
+				for _, aa := range a {
+					var bb string = strings.ToUpper(aa)
+
+					b = append(b, bb)
+				}
+				return b
+			},
+			Key:      mdl.SomeKey("One", "TWO", "three"),
+			Expected: mdl.SomeKey("ONE","TWO", "THREE"),
+		},
+	}
+
+	for testNumber, test := range tests {
+
+		actual := test.Key.Map(test.FN)
+
+		if expected := test.Expected; expected != actual {
+			t.Errorf("For test #%d, what was expected from .Map() is not what was actually received.", testNumber)
+			t.Logf("EXPECTED: %#v", expected)
+			t.Logf("ACTUAL:   %#v", actual)
 			continue
 		}
 	}
