@@ -136,3 +136,13 @@ func (receiver Key) Else(key ...string) Key {
 
 	return SomeKey(key...)
 }
+
+func (receiver Key) ElseUnwrap(key ...string) []string {
+	if NoKey() == receiver {
+		return key
+	}
+
+	a, _ := KeyDeserialize(receiver.encoded.datum)
+
+	return a
+}

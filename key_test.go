@@ -3,6 +3,8 @@ package mdl_test
 import (
 	"github.com/reiver/go-mdl"
 
+	"reflect"
+
 	"testing"
 )
 
@@ -62,6 +64,38 @@ func TestKeyElse(t *testing.T) {
 
 		if expected := test.Expected; expected != actual {
 			t.Errorf("For test #%d, the key which was actually gotten from .Else(), was not what was expected.", testNumber)
+			t.Logf("EXPECTED: %#v", expected)
+			t.Logf("ACTUAL:   %#v", actual)
+			continue
+		}
+	}
+}
+
+func TestKeyElseUnwrap(t *testing.T) {
+
+	tests := []struct{
+		Key        mdl.Key
+		Else     []string
+		Expected []string
+	}{
+		{
+			Key:     mdl.NoKey(),
+			Else:     []string{"apple", "banana", "cherry"},
+			Expected: []string{"apple", "banana", "cherry"},
+		},
+		{
+			Key:   mdl.SomeKey("one", "two"),
+			Else:     []string{"apple", "banana", "cherry"},
+			Expected: []string{"one", "two"},
+		},
+	}
+
+	for testNumber, test := range tests {
+
+		actual := test.Key.ElseUnwrap(test.Else...)
+
+		if expected := test.Expected; !reflect.DeepEqual(expected, actual) {
+			t.Errorf("For test #%d, the key which was actually gotten from .ElseUnwrap(), was not what was expected.", testNumber)
 			t.Logf("EXPECTED: %#v", expected)
 			t.Logf("ACTUAL:   %#v", actual)
 			continue
