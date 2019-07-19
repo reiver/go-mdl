@@ -140,14 +140,13 @@ func (receiver String) Format(f fmt.State, c rune) {
 	case 'q':
 		switch receiver {
 		case NoString():
-			fmt.Fprint(f, "«no-strong»")
+			fmt.Fprint(f, "«no-string»")
 		default:
 			fmt.Fprintf(f, "%q", receiver.datum)
 		}
 	default:
 		fmt.Fprintf(f, "%%!%s(%s)", string(c), receiver.GoString())
 	}
-
 }
 
 // GoString makes mdl.String fit the fmt.GoStringer interface.
