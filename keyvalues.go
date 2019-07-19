@@ -68,6 +68,17 @@ func (receiver *KeyValues) Load(key Key) String {
 	return SomeString(value)
 }
 
+// ShallowStore being called as:
+//
+//	err := keyvalues.ShallowStore(key, value)
+//
+// ... is equivalent to calling Store as:
+//
+//	err := keyvalues.Store(mdl.SomeKey(key), value)
+func (receiver *KeyValues) ShallowStore(key string, value string) error {
+	return receiver.Store(SomeKey(key), value)
+}
+
 func (receiver *KeyValues) Store(key Key, value string) error {
 	if nil == receiver {
 		return errNilReceiver
