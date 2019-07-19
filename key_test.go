@@ -104,6 +104,55 @@ func TestKeyElseUnwrap(t *testing.T) {
 	}
 }
 
+func TestKeyFormat(t *testing.T) {
+
+	tests := []struct{
+		Format  string
+		Key      mdl.Key
+		Expected string
+	}{
+		{
+			Format: "%q",
+			Key: mdl.NoKey(),
+			Expected:     `«no-key»`,
+		},
+		{
+			Format: "%q",
+			Key: mdl.SomeKey(),
+			Expected:       `«no-key»`,
+		},
+		{
+			Format: "%q",
+			Key: mdl.SomeKey("apple"),
+			Expected:       `"apple"`,
+		},
+		{
+			Format: "%q",
+			Key: mdl.SomeKey("apple", "banana"),
+			Expected:       `"apple/banana"`,
+		},
+		{
+			Format: "%q",
+			Key: mdl.SomeKey("apple", "banana", "cherry"),
+			Expected:       `"apple/banana/cherry"`,
+		},
+	}
+
+	for testNumber, test := range tests {
+
+		actual := fmt.Sprintf(test.Format, test.Key)
+		if expected := test.Expected; expected != actual {
+			t.Errorf("For test #%d, for print verb, did not actually get what was expected.", testNumber)
+			t.Logf("\tEXPECTED: %q", expected)
+			t.Logf("\tACTUAL:   %q", actual)
+			t.Logf("\tFormat: %q", test.Format)
+			t.Logf("\tKey: %#v", test.Key)
+			continue
+		}
+
+	}
+}
+
 func TestKeyGoString(t *testing.T) {
 
 	tests := []struct{

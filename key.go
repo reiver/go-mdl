@@ -153,6 +153,20 @@ func (receiver Key) ElseUnwrap(key ...string) []string {
 	return a
 }
 
+func (receiver Key) Format(f fmt.State, c rune) {
+	switch c {
+        case 'q':
+		switch receiver {
+		case NoKey():
+			fmt.Fprint(f, "«no-key»")
+		default:
+			fmt.Fprintf(f, "%q", receiver.encoded)
+		}
+	default:
+		fmt.Fprintf(f, "%%!%s(%s)", string(c), receiver.GoString())
+	}
+}
+
 // GoString makes ‘mdl.Key’ fit the fmt.GoStringer interface.
 //
 // It gets used with the %#v verb with the printing family of functions
