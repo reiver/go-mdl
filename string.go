@@ -134,6 +134,22 @@ func (receiver String) ElseUnwrap(datum string) string {
 	return receiver.datum
 }
 
+// Format makes ‘mdl.String’ fit the ‘fmt.Formatter’ interface.
+func (receiver String) Format(f fmt.State, c rune) {
+	switch c {
+	case 'q':
+		switch receiver {
+		case NoString():
+			fmt.Fprint(f, "«no-strong»")
+		default:
+			fmt.Fprintf(f, "%q", receiver.datum)
+		}
+	default:
+		fmt.Fprintf(f, "%%!%s(%s)", string(c), receiver.GoString())
+	}
+
+}
+
 // GoString makes mdl.String fit the fmt.GoStringer interface.
 //
 // It gets used with the %#v verb with the printing family of functions
