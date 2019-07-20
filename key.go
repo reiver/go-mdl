@@ -135,6 +135,21 @@ func SomeKey(key ...string) Key {
 	}
 }
 
+// CanonicalForm returns the ‘mdl.Key’ in ‘canonical form’.
+//
+// Example
+//
+// For example, for this ‘mdl.Key’:
+//
+//	var key mdl.Key = mdl.SomeKey("database", "password")
+//
+// ... its canonical form’ form is:
+//
+//	database/password
+func (receiver Key) CanonicalForm() string {
+	return receiver.encoded.ElseUnwrap("")
+}
+
 func (receiver Key) Else(key ...string) Key {
 	if NoKey() != receiver {
 		return receiver
